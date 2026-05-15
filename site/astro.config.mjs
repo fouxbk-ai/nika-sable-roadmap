@@ -3,5 +3,6 @@ import tailwind from '@astrojs/tailwind';
 
 export default defineConfig({
   integrations: [tailwind({ applyBaseStyles: false })],
-  output: 'static'
+  output: 'static',
+  base: '/nika-sable-roadmap/'
 });

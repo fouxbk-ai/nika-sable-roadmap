@@ -1,0 +1,18 @@
+---
+import { STATUS_COLORS, STATUS_LABELS, type Status } from '../lib/types';
+
+const statuses: Status[] = ['todo', 'in_progress', 'done', 'frozen'];
+---
+
+<div class="flex flex-wrap items-center gap-2">
+  {statuses.map((status) => (
+    <div class="status-chip inline-flex items-center gap-2 text-gray-200">
+      <span class="h-2.5 w-2.5 rounded-full" style={`background: ${STATUS_COLORS[status]}`}></span>
+      {STATUS_LABELS[status]}
+    </div>
+  ))}
+  <div class="status-chip inline-flex items-center gap-2 text-gray-400">
+    <span class="h-0 w-7 border-t border-dashed border-gray-400"></span>
+    даты рассчитаны
+  </div>
+</div>

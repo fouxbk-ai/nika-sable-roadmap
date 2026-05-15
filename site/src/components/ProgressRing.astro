@@ -1,0 +1,35 @@
+---
+type Props = {
+  progress: number;
+  label: string;
+};
+
+const { progress, label } = Astro.props;
+const percent = Math.round(progress * 100);
+const radius = 32;
+const circumference = 2 * Math.PI * radius;
+const dashOffset = circumference * (1 - progress);
+---
+
+<div class="flex items-center gap-4">
+  <svg width="82" height="82" viewBox="0 0 82 82" role="img" aria-label={`Общий прогресс ${percent}%`}>
+    <circle cx="41" cy="41" r={radius} fill="none" stroke="rgba(255,255,255,0.08)" stroke-width="8" />
+    <circle
+      cx="41"
+      cy="41"
+      r={radius}
+      fill="none"
+      stroke="#10b981"
+      stroke-linecap="round"
+      stroke-width="8"
+      stroke-dasharray={circumference}
+      stroke-dashoffset={dashOffset}
+      transform="rotate(-90 41 41)"
+    />
+    <text x="41" y="46" text-anchor="middle" class="fill-gray-100 text-lg font-bold">{percent}%</text>
+  </svg>
+  <div>
+    <div class="text-sm font-semibold text-gray-100">{label}</div>
+    <div class="mono mt-1 text-xs text-gray-500">{percent}% checklist</div>
+  </div>
+</div>

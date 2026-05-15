@@ -1,0 +1,52 @@
+---
+import '../styles/global.css';
+import Gantt from '../components/Gantt.astro';
+import Legend from '../components/Legend.astro';
+import ProgressRing from '../components/ProgressRing.astro';
+import BlockCard from '../components/BlockCard.astro';
+import { buildSummary, loadTasks } from '../lib/loadTasks';
+
+const tasks = await loadTasks();
+const summary = buildSummary(tasks);
+const progressLabel = `${summary.doneBlocks} / ${summary.totalBlocks} блоков завершено`;
+---
+
+<!doctype html>
+<html lang="ru">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="Nika Sable project roadmap built from Obsidian vault tasks." />
+    <link rel="icon" href="/favicon.svg" />
+    <title>Nika Sable · Roadmap</title>
+  </head>
+  <body>
+    <main class="mx-auto flex w-full max-w-[1500px] flex-col gap-8 px-4 py-6 sm:px-6 lg:px-8 lg:py-10">
+      <header class="flex flex-col justify-between gap-6 border-b border-white/5 pb-8 md:flex-row md:items-end">
+        <div>
+          <p class="mono text-xs font-semibold uppercase text-emerald-400">vault roadmap</p>
+          <h1 class="mt-3 text-4xl font-extrabold tracking-normal text-gray-100 md:text-6xl">Nika Sable · Roadmap</h1>
+          <p class="mt-4 max-w-2xl text-sm leading-6 text-gray-400 md:text-base">
+            Живая карта блоков проекта из `30-Проект/задачи-для-кодекса`: сроки, зависимости и прогресс по чек-боксам.
+          </p>
+        </div>
+        <ProgressRing progress={summary.progress} label={progressLabel} />
+      </header>
+
+      <section class="flex flex-col justify-between gap-4 md:flex-row md:items-center">
+        <Legend />
+        <div class="mono text-xs text-gray-500">Собрано: {summary.builtAt}</div>
+      </section>
+
+      <Gantt tasks={tasks} />
+
+      <section class="grid grid-cols-1 gap-4 lg:grid-cols-2" aria-label="Список блоков">
+        {tasks.map((task) => <BlockCard task={task} />)}
+      </section>
+
+      <footer class="border-t border-white/5 py-6 text-sm text-gray-500">
+        Собрано из vault · последняя сборка <span class="mono text-gray-400">{summary.builtAt}</span>
+      </footer>
+    </main>
+  </body>
+</html>

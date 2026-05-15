@@ -1,0 +1,26 @@
+---
+import type { TaskBlock } from '../lib/types';
+
+type Props = {
+  tasks: TaskBlock[];
+};
+
+const { tasks } = Astro.props;
+const payload = JSON.stringify(tasks);
+---
+
+<section class="surface relative min-h-[600px] overflow-hidden rounded-xl" aria-label="Диаграмма Ганта">
+  <div class="absolute right-4 top-4 z-10 flex items-center gap-2">
+    <button class="gantt-zoom rounded-full border border-white/10 bg-white/5 px-3 py-1 text-sm font-semibold text-gray-200 transition hover:border-emerald-400/40" data-zoom="in" type="button">+</button>
+    <button class="gantt-zoom rounded-full border border-white/10 bg-white/5 px-3 py-1 text-sm font-semibold text-gray-200 transition hover:border-emerald-400/40" data-zoom="out" type="button">−</button>
+    <button class="gantt-zoom rounded-full border border-white/10 bg-white/5 px-3 py-1 text-sm font-semibold text-gray-200 transition hover:border-emerald-400/40" data-zoom="fit" type="button">fit</button>
+  </div>
+  <div id="gantt-root" class="min-h-[600px] overflow-x-auto overflow-y-hidden" data-tasks={payload}></div>
+  <div id="gantt-tooltip" class="gantt-tooltip"></div>
+</section>
+
+<script>
+  import { renderGanttChart } from './GanttChart';
+
+  renderGanttChart();
+</script>
